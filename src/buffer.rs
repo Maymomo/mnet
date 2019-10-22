@@ -1,7 +1,7 @@
 #[derive(Debug)]
 pub enum MBufErr {
     NOMORESIZE,
-    CONSUMERR,
+    CONSUMEERR,
     COMMITERR,
 }
 
@@ -29,7 +29,7 @@ impl MBuf {
     pub fn consume(&mut self, size: usize) -> Result<(), MBufErr> {
         let new_read = self.read + size;
         if new_read > self.write {
-            return Err(MBufErr::COMMITERR);
+            return Err(MBufErr::CONSUMEERR);
         }
         self.read = new_read;
         Ok(())
@@ -108,6 +108,19 @@ mod tests {
         assert_eq!(buffer.cap(), buffer.len());
         for i in buffer.data() {
             assert_eq!(2 as u8, *i);
+        }
+
+        match buffer.commit(10000) {
+            Err(_) => {}
+            _ => {
+                panic!("commit error");
+            }
+        }
+        match buffer.consume(10000) {
+            Err(_) => {}
+            _ => {
+                panic!("consume error");
+            }
         }
     }
 
