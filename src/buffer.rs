@@ -14,15 +14,9 @@ impl std::fmt::Display for MBufErr {
 impl std::error::Error for MBufErr {
     fn description(&self) -> &str {
         match *self {
-            MBufErr::NOMORESIZE => {
-                &"buffer has no more size"
-            },
-            MBufErr::CONSUMEERR => {
-                &"buffer consume error"
-            },
-            MBufErr::COMMITERR => {
-                &"buffer commit error"
-            }
+            MBufErr::NOMORESIZE => &"buffer has no more size",
+            MBufErr::CONSUMEERR => &"buffer consume error",
+            MBufErr::COMMITERR => &"buffer commit error",
         }
     }
 }
@@ -45,7 +39,7 @@ impl MBuf {
     }
 
     pub fn data(&self) -> &[u8] {
-        &self.buf.as_slice()[self.read..self.write]
+        &self.buf[self.read..self.write]
     }
 
     pub fn consume(&mut self, size: usize) -> Result<(), MBufErr> {
@@ -59,7 +53,7 @@ impl MBuf {
 
     pub fn prepare(&mut self, size: usize) -> Result<&mut [u8], MBufErr> {
         self.reserve(size)?;
-        Ok(&mut self.buf.as_mut_slice()[self.write..self.write + size])
+        Ok(&mut self.buf[self.write..self.write + size])
     }
 
     pub fn commit(&mut self, size: usize) -> Result<(), MBufErr> {
