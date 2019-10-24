@@ -5,6 +5,28 @@ pub enum MBufErr {
     COMMITERR,
 }
 
+impl std::fmt::Display for MBufErr {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", self)
+    }
+}
+
+impl std::error::Error for MBufErr {
+    fn description(&self) -> &str {
+        match *self {
+            MBufErr::NOMORESIZE => {
+                &"buffer has no more size"
+            },
+            MBufErr::CONSUMEERR => {
+                &"buffer consume error"
+            },
+            MBufErr::COMMITERR => {
+                &"buffer commit error"
+            }
+        }
+    }
+}
+
 pub struct MBuf {
     buf: Vec<u8>,
     read: usize,
