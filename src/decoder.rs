@@ -9,8 +9,8 @@ pub trait Decoder {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::super::error::*;
+    use super::*;
     use std::io::Read;
 
     use byteorder::{ByteOrder, LittleEndian, WriteBytesExt};

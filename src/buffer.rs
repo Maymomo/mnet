@@ -29,12 +29,12 @@ pub struct MBuf {
 }
 
 impl MBuf {
-    pub fn new(buf_cap: usize) -> MBuf {
+    pub fn new(cap: usize) -> MBuf {
         MBuf {
-            buf: vec![0; buf_cap],
+            buf: vec![0; cap],
             read: 0,
             write: 0,
-            cap: buf_cap,
+            cap,
         }
     }
 
